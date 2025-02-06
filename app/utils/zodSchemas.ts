@@ -6,4 +6,5 @@ export const companySchema = z.object({
   about: z.string().min(10, "최소 10글자 이상 작성해야 합니다."),
   logo: z.string().min(1, ""),
   website: z.string().url("Please enter valid url"),
+  xAccount: z.string().optional(),
 });
