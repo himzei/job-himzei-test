@@ -8,3 +8,9 @@ export const companySchema = z.object({
   website: z.string().url("Please enter valid url"),
   xAccount: z.string().optional(),
 });
+
+export const jobSeekerSchema = z.object({
+  name: z.string().min(2, "2글자 이상 작성"),
+  about: z.string().min(10, "10글자 이상 작성"),
+  resume: z.string().min(1, "이력서를 업로드 해주세요"),
+});
