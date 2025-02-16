@@ -76,3 +76,10 @@ export async function createJobSeeker(data: z.infer<typeof jobSeekerSchema>) {
 
   return redirect("/");
 }
+
+export async function createJob() {
+  const user = await requireUser();
+
+  const req = await request();
+  const decision = await aj.protect(req);
+}
