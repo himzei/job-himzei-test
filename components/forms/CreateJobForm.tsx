@@ -33,6 +33,8 @@ import { Button } from "../ui/button";
 import { XIcon } from "lucide-react";
 import { UploadDropzone } from "../general/UploadThingReexported";
 import { JobListingDuration } from "../general/JobListingDurationSelector";
+import { createJob } from "@/app/actions";
+import { useState } from "react";
 
 interface iAppProps {
   companyLocation: string;
@@ -71,8 +73,18 @@ export function CreateJobForm({
     },
   });
 
-  async function onSubmit(vlues: z.infer<typeof jobSchema>) {
-    console.log("sholud workd");
+  const [pending, setPending] = useState(false);
+  async function onSubmit(values: z.infer<typeof jobSchema>) {
+    try {
+      setPending(true);
+      await createJob(values);
+    } catch (error) {
+      if (error instanceof Error && error.message !== "NEXT_REDIRECT") {
+        console.log("Something went wrong");
+      }
+    } finally {
+      setPending(false);
+    }
   }
   return (
     <Form {...form}>
@@ -399,8 +411,8 @@ export function CreateJobForm({
           </CardContent>
         </Card>
 
-        <Button type="submit" className="w-full">
-          Post Job
+        <Button type="submit" className="w-full" disabled={pending}>
+          {pending ? "Submitting" : "Create job post"}
         </Button>
       </form>
     </Form>
